@@ -10,13 +10,13 @@ ms.service: active-directory
 ms.subservice: develop
 ms.topic: quickstart
 ms.workload: identity
-ms.date: 10/28/2019
+ms.date: 10/1/2020
 ms.author: amikuma
 ms.custom: aaddev, scenarios:getting-started, languages:js, devx-track-js
 #Customer intent: As an application developer, I want to know how to set up authentication in a web application built using Node.js.
 ---
 
-# MSAL Node Sample:  Auth Code
+# MSAL Node Quickstart:  Auth Code
 
 ### How is this scenario used?
 The Auth Code flow is most commonly used for a web app that signs in users.  General information about this scenario is available [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
