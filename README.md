@@ -1,107 +1,101 @@
 ---
-page_type: quickstart
+page_type: sample
 languages:
 - javascript
+- nodejs
 products:
 - azure-active-directory
-- javascript
-- nodejs
-description: "Add Authentication to a Node web app with MSAL Node"
+description: "Add authentication to a Node.js web application with the Microsoft Authentication Library for Node.js (MSAL Node)."
 urlFragment: "quickstart-v2-nodejs-webapp-msal"
 ---
 
-# MSAL Node Quickstart:  Auth Code
+# Add user authentication to a Node web app with MSAL
 
-### How is this scenario used?
-The Auth Code flow is most commonly used for a web app that signs in users.  General information about this scenario is available [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
+## How is this scenario used?
 
-### Clone this repository
+The OAuth 2.0 auth code flow is most commonly used for a web app that signs in users. General information about this scenario is available in [Scenario: Web app that signs in users](https://docs.microsoft.com/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
 
-First, get the sample files:
+## Clone the repository
+
+First, get the files included in this code sample.
 
 SSH:
 
 ```bash
-$ git clone git@github.com:AzureAD/microsoft-authentication-library-for-js.git
+$ git clone git@github.com:AzureAD/ms-identity-node.git
 ```
 
 HTTP:
 
 ```bash
-$ git clone https://github.com/AzureAD/microsoft-authentication-library-for-js.git
+$ git clone https://github.com/AzureAD/ms-identity-node.git
 ```
 
-You can also download the repository by selecting "Download ZIP" from the repository's dropdown menu. You can decompress it locally and explore the code.
+You can also download the repository by selecting [Download ZIP]() from the repository's dropdown menu. You can decompress it locally and explore the code.
 
-### Pre-requisites
-- By using MSAL Node, you are working with the Microsoft Identity ecosystem.  Read about [App Registration](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) and register one for use with this sample.
-- Install [Node.js](https://nodejs.org/en/) if needed
-- Install the MSAL Node package:  
+## Prerequisites
+
+- [App registered](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in your Azure Active Directory tenant
+  - Name: `MSAL Node Sample` (suggested)
+  - Supported account types: **Accounts in any organizational directory and personal Microsoft accounts**
+  - Platform type: **Web**
+  - Redirect URI: `http://localhost:3000/redirect`
+  - Client secret: `*********` (record this value after creation - it's shown only once)
+- [Node.js](https://nodejs.org/en/)
+
+## Install the package
+
+To install the MSAL Node package:
+
 ```bash
 npm install @azure/msal-node
 ```
-- If you are customizing MSAL Node or building locally:
+
+If you are customizing MSAL Node or building locally:
+
 ```bash
 npm run build:package
 ```
 
-## Test the Sample
+## Configure the sample code
 
-### Configure the application
-Open the `index.js` file.
+Open the *index.js* file and find the `config` object. Modify the `config` object with values from your [app's registration in the Azure portal](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app).
 
-Find the `config` object.  We will change this to add details about our app registration and deployment.
+Find your app's registration in the [Azure portal](https://portal.azure.com) and populate the `config` object with the following values:
 
-By default, this configuration is set to support all Microsoft accounts. This includes Azure AD accounts used by organizations, and MSA accounts typically used by consumers. 
+* `clientId`: **Application (client) ID**
+* `authority`: `https://login.microsoftonline.com/common`
+* `clientSecret`: `********` (recorded during app registration - see [Prerequisites](#))
 
-Before proceeding, go to the Azure portal, and open the app registration for this app.
+You have finished the basic configuration!
 
-#### **Client ID**
-Within the "Overview" you will see a GUID labeled **Application (client) ID**.  Copy this GUID to the clientId field in the config.
+> TIP: You can support different account types by specifying other [authority options](https://docs.microsoft.com/azure/active-directory/develop/msal-client-application-configuration). Unless you have a need to restrict users of your app to a single organization, we suggest you use the default authority shown here. User restrictions can be placed later in the application flow if needed.
 
-Click the **Authentication** link in the left nav.
+## Run the sample app
 
-#### **Authority**
-Check that supported account types are: **Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)**
+1. From the command line, let npm install any needed dependencies.  This only needs to be done once.
 
-If so, then leave the default setting for authority as `https://login.microsoftonline.com/common`
+    ```bash
+    $ npm install
+    ```
 
-For other supported account types, review the other [Authority options](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-application-configuration).  Unless there is a specific need to restrict users of your app to an organization, we strongly suggest that everyone use the default authority.  User restrictions can be placed later in the application flow if needed.
-
-#### **Client Secret**
-
-This secret helps prevent third parties from using your app registration.
-Click on `Certificates and Secrets` in the left nav.
-Click `New Client Secret` and pick an expiry.
-Click the `Copy to Clipboard` icon, and add the secret to the config object in index.js.
-
-🎉You have finished the basic configuration!🎉
-
-### Executing the application
-
-From the command line, let npm install any needed dependencies.  This only needs to be done once.
-
-```bash
-$ npm install
-```
 1. Once the dependencies are installed, you can run the sample application by using the following command:
 
-```bash
-$ npm start
-```
+    ```bash
+    $ npm start
+    ```
 
-2. Navigate to http://localhost:3000 (or whatever port number specified) with the browser of your choice.
+1. Navigate to http://localhost:3000 (or whatever port number specified) with the browser of your choice.
 
-### Customizing the application
+#### Customize application start
 
-To customize the start script, review the `package.json` file.
+To customize the start script, modify the *package.json* file.
 
-## Adding this scenario to an existing application
+## Add authentication to an existing application
 
 ### Import the Configuration Object
 
-If you set up the sample with your app registration, you may be able to copy this object directly into your application.  
-
+If you set up the sample with your app registration, you may be able to copy this object directly into your application.
 
 ```js
 const config = {
@@ -132,25 +126,23 @@ const msal = require('@azure/msal-node');
 
 ### Initialize MSAL Node at runtime
 
-
 Initialize the app object within your web app.
 
 ```js
 const pca = new msal.ConfidentialClientApplication(config);
 ```
 
-### Configure Sign In Request
+### Configure sign-in request
 
-Choose the route that requires sign in.  Within that route, set up permissions, and direct the MSAL Node app object to attempt sign in.
+Choose the route that requires sign-in. Within that route, set up permissions and direct the MSAL Node app object to attempt sign-in.
 
-In our sample, we immediately sign in the user.  If you want all users to be logged in before they view anything, then you can use the same process.
-We add our sign in code to the default route. 
+In this code sample, the user is immediately signed-in. If you want all users to be logged in before they view anything, then you can use the same process. Add the sign-in code to the default route:
 
 ```js
 app.get('/', (req, res) => {
 ```
 
-Next, we have to pick the `scopes` related to the user.  If we are logging in a user, then we must at least request access to basic user information.  The default scope of `user.read` grants that basic access.  To learn more see the [Microsoft Graph permissions reference](https://docs.microsoft.com/en-us/graph/permissions-reference).
+Next, pick the `scopes` related to the user. If you're logging in a user, you must at minimum request access to basic user information. The default scope of `user.read` grants that basic access. To learn more, see the [Microsoft Graph permissions reference](https://docs.microsoft.com/graph/permissions-reference).
 
 ```js
     const authCodeUrlParameters = {
@@ -159,9 +151,9 @@ Next, we have to pick the `scopes` related to the user.  If we are logging in a 
     };
 ```
 
-The ```redirectUri``` is the return route.  After logging in a user, they will hit this route.  Your application logic will take over here.  You will want to customize the redirectUri for your application.
+The `redirectUri` is the return route. After logging in a user, they'll hit this route. Your application logic will take over here. You'll want to customize the `redirectUri` for your application.
 
-Next we direct the user to authenticate.  The following code block directs the user based on the Authority we set in the config, and directs the user as needed.
+Next, direct the user to authenticate. The following code block directs the user based on the `authority` you set in the config and directs the user as needed.
 
 ```js
     pca.getAuthCodeUrl(authCodeUrlParameters).then((response) => {
@@ -169,7 +161,7 @@ Next we direct the user to authenticate.  The following code block directs the u
     }).catch((error) => console.log(JSON.stringify(error)));
 ```
 
-Putting together the routing and all the logic for starting the sign in yields the following code:
+Putting together the routing and all the logic for starting the sign-in yields the following code:
 
 ```js
 app.get('/', (req, res) => {
@@ -183,18 +175,18 @@ app.get('/', (req, res) => {
     }).catch((error) => console.log(JSON.stringify(error)));
 });
 ```
-### Configure Sign In Response
 
-The next step occurs after the redirect.
-Your application must first *complete* the sign in flow by processing the code and validating the incoming request.
+### Configure sign-in response
 
-First, configure the route where you will receive the response.  This must match your application configuration on the Azure portal.
+The next step occurs after the redirect. Your application must first *complete* the sign-in flow by processing the code and validating the incoming request.
+
+First, configure the route where your app should receive the response. This must match your app registration's configuration in the Azure portal.
 
 ```js
 app.get('/redirect', (req, res) => {
 ```
 
-Next,  your app logic will validate the scopes and route.  These settings must match the request.  Make sure the `scopes` match the request. Make sure the `redirectUri` matches the app registration, and the route.
+Next, your app logic validates the scopes and route. The `scopes` must match the request and the `redirectUri` must match the **Redirect URI** you configured in the app registration in the Azure portal, as well the route.
 
 ```js
     const tokenRequest = {
@@ -203,7 +195,8 @@ Next,  your app logic will validate the scopes and route.  These settings must m
         redirectUri: "http://localhost:3000/redirect",
     };
 ```
-The above code is the *configuration* for validating the response.  The following code validates the response and completes the sign in.
+
+The above code is the *configuration* for validating the response. The following code *validates* the response and completes the sign-in.
 
 ```js
     pca.acquireTokenByCode(tokenRequest).then((response) => {
@@ -214,7 +207,8 @@ The above code is the *configuration* for validating the response.  The followin
         res.status(500).send(error);
     });
 ```
-Putting together the routing and all the logic for completing the sign in yields the following code:
+
+Putting together the routing and all the logic for completing the sign-in yields the following code:
 
 ```js
 app.get('/redirect', (req, res) => {
@@ -234,8 +228,10 @@ app.get('/redirect', (req, res) => {
 });
 ```
 
-### The User Experience
+## The user experience
 
-What happens if the user logs in, closes the window, returns to the site, and logs in again?  Microsoft supports many, many complex scenarios with many, many forms of authentication: certificates, hardware keys, federated experiences, and even biometrics in some cases.  Let our library handle the complexity of deciding the simplest way of logging in the user.
+What happens if the user logs in, closes the window, returns to the site, and logs in again?
 
-Silent flows are not used with the this scenario. See [Authentication Flows](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-authentication-flows) for a discussion of the interaction between flows.
+Microsoft supports several complex scenarios with several forms of authentication: certificates, hardware keys, federated experiences, and even biometrics in some cases. Let our the Microsoft Authentication Library (MSAL) handle the complexity of deciding the simplest way of logging in the user.
+
+> NOTE: Silent flows are not used with this scenario. See [Authentication flows](https://docs.microsoft.com/azure/active-directory/develop/msal-authentication-flows) for a discussion of the interaction between flows.
