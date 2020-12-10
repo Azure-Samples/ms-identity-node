@@ -11,7 +11,7 @@ urlFragment: "quickstart-v2-nodejs-webapp-msal"
 
 # Add user authentication to a Node web app with MSAL
 
-This sample Node.js web application uses the Microsoft Authentication Library for Node.js (MSAL Node.js) to sign in users with the OAuth 2.0 authorization code flow.
+This sample Node.js web application uses the Microsoft Authentication Library for Node.js (MSAL Node.js) to sign in users by using the OAuth 2.0 authorization code flow.
 
 You can find additional information about supporting user sign-in in your web apps by using the Microsoft identity platform on docs.microsoft.com: [Scenario: Web app that signs in users](https://docs.microsoft.com/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
 
@@ -21,7 +21,7 @@ You can find additional information about supporting user sign-in in your web ap
 
 ## Register the application
 
-Start by [registering an app](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in your Azure Active Directory (Azure AD) tenant.
+First, complete the steps in [Register an application with the Microsoft identity platform](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) to register the app.
 
 Use the following settings for your app registration:
 
