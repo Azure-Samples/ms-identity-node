@@ -11,13 +11,29 @@ urlFragment: "quickstart-v2-nodejs-webapp-msal"
 
 # Add user authentication to a Node web app with MSAL
 
-## How is this scenario used?
+This sample Node.js web application uses the Microsoft Authentication Library for Node.js (MSAL Node.js) to sign in users with the OAuth 2.0 authorization code flow.
 
-The OAuth 2.0 auth code flow is most commonly used for a web app that signs in users. General information about this scenario is available in [Scenario: Web app that signs in users](https://docs.microsoft.com/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
+You can find additional information about supporting user sign-in in your web apps by using the Microsoft identity platform on docs.microsoft.com: [Scenario: Web app that signs in users](https://docs.microsoft.com/azure/active-directory/develop/scenario-web-app-sign-user-overview?tabs=aspnetcore).
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/en/)
+
+## Register the application
+
+Start by [registering an app](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in your Azure Active Directory (Azure AD) tenant.
+
+Use the following settings for your app registration:
+
+- Name: `MSAL Node Sample` (suggested)
+- Supported account types: **Accounts in any organizational directory and personal Microsoft accounts**
+- Platform type: **Web**
+- Redirect URI: `http://localhost:3000/redirect`
+- Client secret: `*********` (record this value after creation - it's shown only once)
 
 ## Clone the repository
 
-First, get the files included in this code sample.
+Next, get the files included in this code sample.
 
 SSH:
 
@@ -32,16 +48,6 @@ $ git clone https://github.com/AzureAD/ms-identity-node.git
 ```
 
 You can also download the repository by selecting [Download ZIP]() from the repository's dropdown menu. You can decompress it locally and explore the code.
-
-## Prerequisites
-
-- [App registered](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in your Azure Active Directory tenant
-  - Name: `MSAL Node Sample` (suggested)
-  - Supported account types: **Accounts in any organizational directory and personal Microsoft accounts**
-  - Platform type: **Web**
-  - Redirect URI: `http://localhost:3000/redirect`
-  - Client secret: `*********` (record this value after creation - it's shown only once)
-- [Node.js](https://nodejs.org/en/)
 
 ## Install the package
 
