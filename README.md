@@ -2,8 +2,8 @@
 page_type: sample
 languages:
 - javascript
-- nodejs
 products:
+- nodejs
 - azure-active-directory
 description: "Add authentication to a Node.js web application with the Microsoft Authentication Library for Node.js (MSAL Node)."
 urlFragment: "quickstart-v2-nodejs-webapp-msal"
@@ -47,7 +47,7 @@ HTTP:
 $ git clone https://github.com/AzureAD/ms-identity-node.git
 ```
 
-You can also download the repository by selecting [Download ZIP]() from the repository's dropdown menu. You can decompress it locally and explore the code.
+You can also download the repository by selecting **Download ZIP** from the repository's dropdown menu. You can decompress it locally and explore the code.
 
 ## Install the package
 
@@ -106,7 +106,7 @@ If you set up the sample with your app registration, you may be able to copy thi
 ```js
 const config = {
     auth: {
-        clientId: "12d77c73-d09d-406a-ae0d-3d4e576f7d9b",
+        clientId: "12d77c73-d09d-406a-3asd-3d4e576f7d9b",
         authority: "https://login.microsoftonline.com/common",
         clientSecret: ""
     },
