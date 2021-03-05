@@ -170,7 +170,7 @@ Function ConfigureApplications
    # Update config file for 'webApp'
    $configFile = $pwd.Path + "\..\index.js"
    Write-Host "Updating the sample code ($configFile)"
-   $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here" = https://login.microsoftonline.com/common;"Enter_the_Client_Secret_Here" = $webAppAppKey };
+   $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here" = 'https://login.microsoftonline.com/common';"Enter_the_Client_Secret_Here" = $webAppAppKey };
    ReplaceInTextFile -configFilePath $configFile -dictionary $dictionary
   
    Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html  
