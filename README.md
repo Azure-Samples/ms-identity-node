@@ -38,13 +38,13 @@ Next, get the files included in this code sample.
 SSH:
 
 ```bash
-$ git clone git@github.com:AzureAD/ms-identity-node.git
+git clone git@github.com:Azure-Samples/ms-identity-node.git
 ```
 
 HTTP:
 
 ```bash
-$ git clone https://github.com/AzureAD/ms-identity-node.git
+git clone https://github.com/Azure-Samples/ms-identity-node.git
 ```
 
 You can also download the repository by selecting **Download ZIP** from the repository's dropdown menu. You can decompress it locally and explore the code.
