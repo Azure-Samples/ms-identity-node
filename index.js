@@ -13,7 +13,7 @@ const REDIRECT_URI = "http://localhost:3000/redirect";
 const config = {
     auth: {
         clientId: "Enter_the_Application_Id_Here",
-        authority: "Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here",
+        authority: "https://login.microsoftonline.com/common",
         clientSecret: "Enter_the_Client_Secret_Here"
     },
     system: {
