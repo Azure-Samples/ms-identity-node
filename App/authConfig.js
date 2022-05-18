@@ -1,9 +1,9 @@
 
 const msalConfig = {
   auth: {
-    clientId: "4fdaa95c-7cfe-48cd-9def-16db8954e3a2",
-    authority: "https://login.microsoftonline.com/cbaf2168-de14-4c72-9d88-f5f05366dbef",
-    clientSecret: "DZF8Q~IIjGeQkhzZ_AFR.N_rxGdY_fPrHmVrdc.q"
+    clientId: "Enter_the_Application_Id_Here",
+    authority: "Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here",
+    clientSecret: "Enter_the_Client_Secret_Here"
   },
   system: {
     loggerOptions: {
