@@ -21,13 +21,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-/**
- * In App Service, SSL termination happens at the network load balancers, so all HTTPS requests reach your app as non-encrypted HTTP requests.
- * The line below is needed for getting the correct absolute URL for redirectUri configuration. For more information, visit:
- * https://docs.microsoft.com/azure/app-service/configure-language-nodejs?pivots=platform-linux#detect-https-session
- */
-app.set('trust proxy', 1) // trust first proxy
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());

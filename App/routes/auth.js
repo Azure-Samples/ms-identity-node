@@ -9,7 +9,11 @@ const cryptoProvider = new msal.CryptoProvider();
 
 const redirectToAuthCodeUrl = async (req, res, next, requestParams) => {
 
-  // prepare the request for the new auth code flow
+  /**
+   * By manipulating the request objects below before each request, we can obtain
+   * auth artifacts with desired claims. For more information, visit:
+   * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationurlrequest
+   **/
   req.session.authCodeUrlRequest = {
     redirectUri: REDIRECT_URI,
     scopes: [],
@@ -56,11 +60,7 @@ router.get('/signin', async function (req, res, next) {
   // create a GUID for crsf
   req.session.csrfToken = cryptoProvider.createNewGuid();
 
-  /**
-   * We manipulate these two request objects below
-   * to acquire a token with the appropriate claims
-   */
-
+  // ensure request objects exist as session vars
   if (!req.session["authCodeRequest"]) {
     req.session.authCodeRequest = {
       authority: "",
@@ -79,7 +79,13 @@ router.get('/signin', async function (req, res, next) {
     };
   }
 
-  // encode the state param
+  /**
+   * The MSAL.js library allows you to pass your custom state as state parameter in the Request object
+   * By default, MSAL.js passes a randomly generated unique state parameter value in the authentication requests.
+   * The state parameter can also be used to encode information of the app's state before redirect.
+   * You can pass the user's state in the app, such as the page or view they were on, as input to this parameter.
+   * For more information, visit: https://docs.microsoft.com/azure/active-directory/develop/msal-js-pass-custom-state-authentication-request
+   */
   const state = cryptoProvider.base64Encode(
     JSON.stringify({
       csrfToken: req.session.csrfToken,
