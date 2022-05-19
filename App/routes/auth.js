@@ -1,33 +1,22 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 var express = require('express');
 var msal = require('@azure/msal-node');
 
-var { msalConfig, REDIRECT_URI, POST_LOGOUT_REDIRECT_URI } = require('../authConfig');
+var {
+  msalConfig,
+  REDIRECT_URI,
+  POST_LOGOUT_REDIRECT_URI
+} = require('../authConfig');
 
 const router = express.Router();
 const msalInstance = new msal.ConfidentialClientApplication(msalConfig);
 const cryptoProvider = new msal.CryptoProvider();
 
-const redirectToAuthCodeUrl = async (req, res, next, requestParams) => {
-
-  /**
-   * By manipulating the request objects below before each request, we can obtain
-   * auth artifacts with desired claims. For more information, visit:
-   * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationurlrequest
-   **/
-  req.session.authCodeUrlRequest = {
-    redirectUri: REDIRECT_URI,
-    scopes: [],
-    responseMode: 'form_post', // recommended for confidential clients
-  };
-
-  req.session.tokenRequest = {
-    redirectUri: REDIRECT_URI,
-    scopes: [],
-    code: ""
-  };
-
-  // prepare the request
-  req.session.authCodeUrlRequest.state = requestParams.state;
+async function redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams) {
 
   // Generate PKCE Codes before starting the authorization flow
   const { verifier, challenge } = await cryptoProvider.generatePkceCodes();
@@ -39,12 +28,26 @@ const redirectToAuthCodeUrl = async (req, res, next, requestParams) => {
     challenge: challenge,
   };
 
-  // Add PKCE code challenge and challenge method to authCodeUrl request object
-  req.session.authCodeUrlRequest.codeChallenge = req.session.pkceCodes.challenge;
-  req.session.authCodeUrlRequest.codeChallengeMethod = req.session.pkceCodes.challengeMethod;
+  /**
+   * By manipulating the request objects below before each request, we can obtain
+   * auth artifacts with desired claims. For more information, visit:
+   * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationurlrequest
+   * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationcoderequest
+   **/
 
-  req.session.authCodeUrlRequest.scopes = requestParams.scopes;
-  req.session.tokenRequest.scopes = requestParams.scopes;
+  req.session.authCodeUrlRequest = {
+    redirectUri: REDIRECT_URI,
+    responseMode: 'form_post', // recommended for confidential clients
+    codeChallenge: req.session.pkceCodes.challenge,
+    codeChallengeMethod: req.session.pkceCodes.challengeMethod,
+    ...authCodeUrlRequestParams,
+  }
+
+  req.session.authCodeRequest = {
+    redirectUri: REDIRECT_URI,
+    code: "",
+    ...authCodeRequestParams,
+  }
 
   // Get url to sign user in and consent to scopes needed for application
   try {
@@ -60,31 +63,10 @@ router.get('/signin', async function (req, res, next) {
   // create a GUID for crsf
   req.session.csrfToken = cryptoProvider.createNewGuid();
 
-  // ensure request objects exist as session vars
-  if (!req.session["authCodeRequest"]) {
-    req.session.authCodeRequest = {
-      authority: "",
-      scopes: [],
-      state: "",
-      redirectUri: "",
-    };
-  }
-
-  if (!req.session["tokenRequest"]) {
-    req.session.tokenRequest = {
-      authority: "",
-      scopes: [],
-      redirectUri: "",
-      code: "",
-    };
-  }
-
   /**
-   * The MSAL.js library allows you to pass your custom state as state parameter in the Request object
-   * By default, MSAL.js passes a randomly generated unique state parameter value in the authentication requests.
+   * The MSAL Node library allows you to pass your custom state as state parameter in the Request object.
    * The state parameter can also be used to encode information of the app's state before redirect.
    * You can pass the user's state in the app, such as the page or view they were on, as input to this parameter.
-   * For more information, visit: https://docs.microsoft.com/azure/active-directory/develop/msal-js-pass-custom-state-authentication-request
    */
   const state = cryptoProvider.base64Encode(
     JSON.stringify({
@@ -93,12 +75,17 @@ router.get('/signin', async function (req, res, next) {
     })
   );
 
-  const requestParams = {
+  const authCodeUrlRequestParams = {
     state: state,
     scopes: [], // by default, MSAL Node will add OIDC scopes to the request
   };
 
-  return redirectToAuthCodeUrl(req, res, next, requestParams)
+  const authCodeRequestParams = {
+    scopes: [],
+  }
+
+  // trigger the first leg of auth code flow
+  return redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams)
 });
 
 router.get('/acquireToken', async function (req, res, next) {
@@ -110,30 +97,35 @@ router.get('/acquireToken', async function (req, res, next) {
   const state = cryptoProvider.base64Encode(
     JSON.stringify({
       csrfToken: req.session.csrfToken,
-      redirectTo: '/profile'
+      redirectTo: '/users/profile'
     })
   );
 
-  const requestParams = {
+  const authCodeUrlRequestParams = {
     state: state,
     scopes: ["User.Read"],
   };
 
-  return redirectToAuthCodeUrl(req, res, next, requestParams)
+  const authCodeRequestParams = {
+    scopes: ["User.Read"],
+  }
+
+  // trigger the first leg of auth code flow
+  return redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams)
 });
 
-router.post('/redirect', async function (req, res) {
+router.post('/redirect', async function (req, res, next) {
   if (req.body.state) {
     const state = JSON.parse(cryptoProvider.base64Decode(req.body.state));
+    console.log(state);
 
     // check if csrfToken matches
     if (state.csrfToken === req.session.csrfToken) {
-      req.session.tokenRequest.code = req.body.code; // authZ code
-      req.session.tokenRequest.codeVerifier = req.session.pkceCodes.verifier // PKCE Code Verifier
+      req.session.authCodeRequest.code = req.body.code; // authZ code
+      req.session.authCodeRequest.codeVerifier = req.session.pkceCodes.verifier // PKCE Code Verifier
 
       try {
-        const tokenResponse = await msalInstance.acquireTokenByCode(req.session.tokenRequest);
-
+        const tokenResponse = await msalInstance.acquireTokenByCode(req.session.authCodeRequest);
         req.session.accessToken = tokenResponse.accessToken;
         req.session.idToken = tokenResponse.idToken;
         req.session.account = tokenResponse.account;
@@ -144,10 +136,10 @@ router.post('/redirect', async function (req, res) {
         next(error);
       }
     } else {
-      res.status(500).send('State does not match!');
+      next(new Error('csrf token does not match'));
     }
   } else {
-    res.status(500).send('State is missing!');
+    next(new Error('state is missing!'));
   }
 });
 

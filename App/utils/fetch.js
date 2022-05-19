@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 var axios = require('axios').default;
 
 /**
@@ -12,7 +17,7 @@ async function fetch(endpoint, accessToken) {
     }
   };
 
-  console.log('request made to web API at: ' + new Date().toString());
+  console.log(`request made to ${endpoint} at: ` + new Date().toString());
 
   try {
     const response = await axios.get(endpoint, options);
