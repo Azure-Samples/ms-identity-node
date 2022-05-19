@@ -29,7 +29,7 @@ const msalConfig = {
 
 const REDIRECT_URI = process.env.AAD_REDIRECT_URI;
 const POST_LOGOUT_REDIRECT_URI = process.env.AAD_POST_LOGOUT_REDIRECT_URI;
-const GRAPH_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
+const GRAPH_ENDPOINT = process.env.GRAPH_API_ENDPOINT + "v1.0/me";
 
 module.exports = {
   msalConfig,
