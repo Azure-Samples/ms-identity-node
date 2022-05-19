@@ -12,9 +12,9 @@ require('dotenv').config();
  */
 const msalConfig = {
   auth: {
-    clientId: "Enter_the_Application_Id_Here", // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
-    authority: "Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here", // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
-    clientSecret: "Enter_the_Client_Secret_Here" // Client secret generated from the app registration in Azure portal
+    clientId: process.env.AAD_CLIENT_ID, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
+    authority: process.env.AAD_CLOUD_INSTANCE + process.env.AAD_TENANT_INFO, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
+    clientSecret: process.env.AAD_CLIENT_SECRET // Client secret generated from the app registration in Azure portal
   },
   system: {
     loggerOptions: {
@@ -27,19 +27,13 @@ const msalConfig = {
   }
 }
 
-
-const REDIRECT_URI = "http://localhost:3000/auth/redirect";
-
-const POST_LOGOUT_REDIRECT_URI = "http://localhost:3000/";
-
-const GRAPH_CONFIG = {
-  ENDPOINT: "https://graph.microsoft.com/v1.0/me",
-  SCOPES: ["User.Read"]
-}
+const REDIRECT_URI = process.env.AAD_REDIRECT_URI;
+const POST_LOGOUT_REDIRECT_URI = process.env.AAD_POST_LOGOUT_REDIRECT_URI;
+const GRAPH_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 
 module.exports = {
   msalConfig,
   REDIRECT_URI,
   POST_LOGOUT_REDIRECT_URI,
-  GRAPH_CONFIG
+  GRAPH_ENDPOINT
 };

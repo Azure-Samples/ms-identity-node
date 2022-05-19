@@ -23,8 +23,7 @@ async function fetch(endpoint, accessToken) {
     const response = await axios.get(endpoint, options);
     return await response.data;
   } catch (error) {
-    console.log(error);
-    return error;
+    throw new Error(error);
   }
 }
 

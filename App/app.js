@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  * familiarize yourself with available options. Visit: https://www.npmjs.com/package/express-session
  */
 app.use(session({
-  secret: 'ENTER_YOUR_SECRET_HERE',
+  secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
