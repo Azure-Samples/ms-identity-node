@@ -1,7 +1,7 @@
 {
   "name": "msal-node-auth-code",
   "version": "1.0.0",
-  "description": "sample app for msal-node",
+  "description": "sample web app for msal-node",
   "scripts": {
     "start": "node ./bin/www"
   },

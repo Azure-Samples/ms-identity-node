@@ -11,29 +11,29 @@ require('dotenv').config();
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/configuration.md
  */
 const msalConfig = {
-  auth: {
-    clientId: process.env.AAD_CLIENT_ID, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
-    authority: process.env.AAD_CLOUD_INSTANCE + process.env.AAD_TENANT_INFO, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
-    clientSecret: process.env.AAD_CLIENT_SECRET // Client secret generated from the app registration in Azure portal
-  },
-  system: {
-    loggerOptions: {
-      loggerCallback(loglevel, message, containsPii) {
-        console.log(message);
-      },
-      piiLoggingEnabled: false,
-      logLevel: "Info",
+    auth: {
+        clientId: process.env.AAD_CLIENT_ID, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
+        authority: process.env.AAD_CLOUD_INSTANCE + process.env.AAD_TENANT_INFO, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
+        clientSecret: process.env.AAD_CLIENT_SECRET // Client secret generated from the app registration in Azure portal
+    },
+    system: {
+        loggerOptions: {
+            loggerCallback(loglevel, message, containsPii) {
+                console.log(message);
+            },
+            piiLoggingEnabled: false,
+            logLevel: "Info",
+        }
     }
-  }
 }
 
 const REDIRECT_URI = process.env.AAD_REDIRECT_URI;
 const POST_LOGOUT_REDIRECT_URI = process.env.AAD_POST_LOGOUT_REDIRECT_URI;
-const GRAPH_ENDPOINT = process.env.GRAPH_API_ENDPOINT + "v1.0/me";
+const GRAPH_ME_ENDPOINT = process.env.GRAPH_API_ENDPOINT + "v1.0/me";
 
 module.exports = {
-  msalConfig,
-  REDIRECT_URI,
-  POST_LOGOUT_REDIRECT_URI,
-  GRAPH_ENDPOINT
+    msalConfig,
+    REDIRECT_URI,
+    POST_LOGOUT_REDIRECT_URI,
+    GRAPH_ME_ENDPOINT
 };
