@@ -87,8 +87,8 @@ router.get('/signin', async function (req, res, next) {
         state: state,
 
         /**
-         * By default, MSAL Node will add OIDC scopes to the auth code request. For more information, visit:
-         * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
+         * By default, MSAL Node will add OIDC scopes to the auth code url request. For more information, visit:
+         * https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
          */
         scopes: [],
     };
@@ -97,7 +97,7 @@ router.get('/signin', async function (req, res, next) {
 
         /**
          * By default, MSAL Node will add OIDC scopes to the auth code request. For more information, visit:
-         * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
+         * https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
          */
         scopes: [],
     };
@@ -163,7 +163,7 @@ router.post('/redirect', async function (req, res, next) {
 router.get('/signout', function (req, res) {
     /**
      * Construct a logout URI and redirect the user to end the
-     * session with Azure AD/B2C. For more information, visit:
+     * session with Azure AD. For more information, visit:
      * https://docs.microsoft.com/azure/active-directory/develop/v2-protocols-oidc#send-a-sign-out-request
      */
     const logoutUri = `${msalConfig.auth.authority}/oauth2/v2.0/logout?post_logout_redirect_uri=${POST_LOGOUT_REDIRECT_URI}`;
