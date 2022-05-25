@@ -49,13 +49,13 @@ async function redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, a
         codeChallenge: req.session.pkceCodes.challenge,
         codeChallengeMethod: req.session.pkceCodes.challengeMethod,
         ...authCodeUrlRequestParams,
-    }
+    };
 
     req.session.authCodeRequest = {
         redirectUri: REDIRECT_URI,
         code: "",
         ...authCodeRequestParams,
-    }
+    };
 
     // Get url to sign user in and consent to scopes needed for application
     try {
@@ -85,12 +85,22 @@ router.get('/signin', async function (req, res, next) {
 
     const authCodeUrlRequestParams = {
         state: state,
-        scopes: [], // by default, MSAL Node will add OIDC scopes to the request
+
+        /**
+         * By default, MSAL Node will add OIDC scopes to the auth code request. For more information, visit:
+         * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
+         */
+        scopes: [],
     };
 
     const authCodeRequestParams = {
+
+        /**
+         * By default, MSAL Node will add OIDC scopes to the auth code request. For more information, visit:
+         * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
+         */
         scopes: [],
-    }
+    };
 
     // trigger the first leg of auth code flow
     return redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams)
@@ -116,7 +126,7 @@ router.get('/acquireToken', async function (req, res, next) {
 
     const authCodeRequestParams = {
         scopes: ["User.Read"],
-    }
+    };
 
     // trigger the first leg of auth code flow
     return redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams)
