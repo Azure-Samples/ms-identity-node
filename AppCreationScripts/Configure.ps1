@@ -168,7 +168,7 @@ Function ConfigureApplications
 
 
    # Update config file for 'webApp'
-   $configFile = $pwd.Path + "\..\.env"
+   $configFile = $pwd.Path + "\..\App\.env"
    Write-Host "Updating the sample code ($configFile)"
    $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_Here" = 'https://login.microsoftonline.com/'; "Enter_the_Tenant_Info_Here" = $tenantId; "Enter_the_Client_Secret_Here" = $webAppAppKey; "Enter_the_Graph_Endpoint_Here" = "https://graph.microsoft.com/" };
    ReplaceInTextFile -configFilePath $configFile -dictionary $dictionary

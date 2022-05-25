@@ -57,9 +57,11 @@ This sample demonstrates the following MSAL Node concepts:
    1. Replace the string `"Enter_the_Application_Id_Here"` with your app/client ID on AAD Portal.
    1. Replace the string `"Enter_the_Cloud_Instance_Id_Here"` with `"https://login.microsoftonline.com/"`
    1. Replace the string `"Enter_the_Tenant_Info_Here"` with your tenant ID on AAD Portal.
-   1. Replace the string `"Enter_the_Redirect_Uri_Here"` with the redirect uri you setup on AAD Portal.
+   1. Replace the string `"Enter_the_Client_Secret_Here"` with your client secret on AAD Portal.
 1. Configure the parameters for calling MS Graph API:
    1. Replace the string `"Enter_the_Graph_Endpoint_Here"` with `"https://graph.microsoft.com/"`
+1. Configure the Express session secret:
+   1. Replace the string `"Enter_the_Express_Session_Secret_Here"` with a hard to guess value, such as your client secret.
 1. To start the sample application, run `npm start`.
 1. Finally, open a browser and navigate to [http://localhost:3000](http://localhost:3000).
 
