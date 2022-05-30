@@ -13,7 +13,7 @@ param(
  This script creates the Azure AD applications needed for this sample and updates the configuration files
  for the visual Studio projects from the data in the Azure AD applications.
 
- Before running this script you need to install the AzureAD cmdlets as an administrator. 
+ Before running this script you need to install the AzureAD cmdlets as an administrator.
  For this:
  1) Run Powershell as an administrator
  2) in the PowerShell window, type: Install-Module AzureAD
@@ -37,7 +37,7 @@ Function ComputePassword
 # See https://www.sabin.io/blog/adding-an-azure-active-directory-application-and-key-using-powershell/
 Function CreateAppKey([DateTime] $fromDate, [double] $durationInYears, [string]$pw)
 {
-    $endDate = $fromDate.AddYears($durationInYears) 
+    $endDate = $fromDate.AddYears($durationInYears)
     $keyId = (New-Guid).ToString();
     $key = New-Object Microsoft.Open.AzureAD.Model.PasswordCredential
     $key.StartDate = $fromDate
@@ -89,9 +89,9 @@ Function ConfigureApplications
    This function creates the Azure AD applications for the sample in the provided Azure AD tenant and updates the
    configuration files in the client and service project  of the visual studio solution (App.Config and Web.Config)
    so that they are consistent with the Applications parameters
-#> 
+#>
     $commonendpoint = "common"
-    
+
     if (!$azureEnvironmentName)
     {
         $azureEnvironmentName = "AzureCloud"
@@ -123,7 +123,7 @@ Function ConfigureApplications
         $tenantId = $creds.Tenant.Id
     }
 
-    
+
 
     $tenant = Get-AzureADTenantDetail
     $tenantName =  ($tenant.VerifiedDomains | Where { $_._Default -eq $True }).Name
@@ -138,22 +138,22 @@ Function ConfigureApplications
    $fromDate = [DateTime]::Now;
    $key = CreateAppKey -fromDate $fromDate -durationInYears 2 -pw $pw
    $webAppAppKey = $pw
-   # create the application 
+   # create the application
    $webAppAadApplication = New-AzureADApplication -DisplayName "ms-identity-node" `
                                                   -HomePage "http://localhost:3000" `
-                                                  -ReplyUrls "http://localhost:3000/redirect" `
+                                                  -ReplyUrls "http://localhost:3000/auth/redirect" `
                                                   -IdentifierUris "https://$tenantName/ms-identity-node" `
                                                   -PasswordCredentials $key `
                                                   -PublicClient $False
 
-   # create the service principal of the newly created application 
+   # create the service principal of the newly created application
    $currentAppId = $webAppAadApplication.AppId
    $webAppServicePrincipal = New-AzureADServicePrincipal -AppId $currentAppId -Tags {WindowsAzureActiveDirectoryIntegratedApp}
 
    # add the user running the script as an app owner if needed
    $owner = Get-AzureADApplicationOwner -ObjectId $webAppAadApplication.ObjectId
    if ($owner -eq $null)
-   { 
+   {
         Add-AzureADApplicationOwner -ObjectId $webAppAadApplication.ObjectId -RefObjectId $user.ObjectId
         Write-Host "'$($user.UserPrincipalName)' added as an application owner to app '$($webAppServicePrincipal.DisplayName)'"
    }
@@ -168,17 +168,17 @@ Function ConfigureApplications
 
 
    # Update config file for 'webApp'
-   $configFile = $pwd.Path + "\..\index.js"
+   $configFile = $pwd.Path + "\..\App\.env"
    Write-Host "Updating the sample code ($configFile)"
-   $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here" = 'https://login.microsoftonline.com/common';"Enter_the_Client_Secret_Here" = $webAppAppKey };
+   $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_Here" = 'https://login.microsoftonline.com/'; "Enter_the_Tenant_Info_Here" = $tenantId; "Enter_the_Client_Secret_Here" = $webAppAppKey; "Enter_the_Graph_Endpoint_Here" = "https://graph.microsoft.com/" };
    ReplaceInTextFile -configFilePath $configFile -dictionary $dictionary
-  
-   Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html  
+
+   Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html
 }
 
 # Pre-requisites
-if ((Get-Module -ListAvailable -Name "AzureAD") -eq $null) { 
-    Install-Module "AzureAD" -Scope CurrentUser 
+if ((Get-Module -ListAvailable -Name "AzureAD") -eq $null) {
+    Install-Module "AzureAD" -Scope CurrentUser
 }
 
 Import-Module AzureAD

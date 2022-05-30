@@ -11,7 +11,7 @@
       "x-ms-version": "2.0",
       "replyUrlsWithType": [
         {
-          "url": "http://localhost:3000/redirect",
+          "url": "http://localhost:3000/auth/redirect",
           "type": "Web"
         }
       ],
@@ -19,12 +19,18 @@
       "oauth2AllowIdTokenImplicitFlow": false,
       "codeConfigurations": [
         {
-          "settingFile": "/index.js",
+          "settingFile": "/App/.env",
           "replaceTokens": {
             "appId": "Enter_the_Application_Id_Here",
             "tenantId": "Enter_the_Tenant_Info_Here",
             "clientSecret": "Enter_the_Client_Secret_Here",
             "authorityEndpointHost": "Enter_the_Cloud_Instance_Id_Here"
+          }
+        },
+        {
+          "settingFile": "/App/.env",
+          "replaceTokens": {
+            "msgraphEndpointHost": "Enter_the_Graph_Endpoint_Here"
           }
         }
       ]
