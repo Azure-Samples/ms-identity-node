@@ -2,6 +2,7 @@
 page_type: sample
 languages:
 - javascript
+- nodejs
 products:
 - msal-node
 - azure-active-directory
