@@ -2,9 +2,9 @@
 page_type: sample
 languages:
 - javascript
-products:
 - nodejs
-- express
+products:
+- msal-node
 - azure-active-directory
 description: "Add authentication to a Node.js web application with the Microsoft Authentication Library for Node.js (MSAL Node)."
 urlFragment: "ms-identity-node"
