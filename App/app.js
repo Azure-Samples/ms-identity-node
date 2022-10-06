@@ -19,6 +19,19 @@ var authRouter = require('./routes/auth');
 // initialize express
 var app = express();
 
+/**
+ * Using express-session middleware for persistent user session. Be sure to
+ * familiarize yourself with available options. Visit: https://www.npmjs.com/package/express-session
+ */
+ app.use(session({
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // set this to true on production
+    }
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -28,19 +41,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-/**
- * Using express-session middleware for persistent user session. Be sure to
- * familiarize yourself with available options. Visit: https://www.npmjs.com/package/express-session
- */
-app.use(session({
-    secret: process.env.EXPRESS_SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false, // set this to true on production
-    }
-}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
