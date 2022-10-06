@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-var axios = require('axios').default;
+var axios = require('axios');
 
 /**
  * Attaches a given access token to a MS Graph API call
