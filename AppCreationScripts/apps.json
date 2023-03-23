@@ -1,39 +1,28 @@
 {
-  "Sample": {
-    "Title": "A Node.js & Express web app authenticating users against Azure AD with MSAL Node",
-    "Level": 100,
-    "Client": "Node.js & Express web app"
-  },
-  "AppRegistrations": [
-    {
-      "x-ms-id": "webApp",
-      "x-ms-name": "ms-identity-node",
-      "x-ms-version": "2.0",
-      "replyUrlsWithType": [
-        {
-          "url": "http://localhost:3000/auth/redirect",
-          "type": "Web"
-        }
-      ],
-      "oauth2AllowImplicitFlow": false,
-      "oauth2AllowIdTokenImplicitFlow": false,
-      "codeConfigurations": [
-        {
-          "settingFile": "/App/.env",
-          "replaceTokens": {
-            "appId": "Enter_the_Application_Id_Here",
-            "tenantId": "Enter_the_Tenant_Info_Here",
-            "clientSecret": "Enter_the_Client_Secret_Here",
-            "authorityEndpointHost": "Enter_the_Cloud_Instance_Id_Here"
-          }
-        },
-        {
-          "settingFile": "/App/.env",
-          "replaceTokens": {
-            "msgraphEndpointHost": "Enter_the_Graph_Endpoint_Here"
-          }
-        }
-      ]
-    }
-  ]
+	"Sample": {
+		"Title": "A Node.js & Express web app authenticating users against Azure AD with MSAL Node",
+		"Level": 100,
+		"Client": "Node.js & Express web app"
+	},
+	"AppRegistrations": [{
+		"x-ms-id": "webApp",
+		"x-ms-name": "ms-identity-node",
+		"x-ms-version": "2.0",
+		"replyUrlsWithType": [{
+			"url": "http://localhost:3000/auth/redirect",
+			"type": "Web"
+		}],
+		"oauth2AllowImplicitFlow": false,
+		"oauth2AllowIdTokenImplicitFlow": false,
+		"codeConfigurations": [{
+			"settingFile": "/App/.env",
+			"replaceTokens": {
+				"appId": "Enter_the_Application_Id_Here",
+				"tenantId": "Enter_the_Tenant_Info_Here",
+				"clientSecret": "Enter_the_Client_Secret_Here",
+				"authorityEndpointHost": "Enter_the_Cloud_Instance_Id_Here",
+				"msgraphEndpointHost": "Enter_the_Graph_Endpoint_Here"
+			}
+		}]
+	}]
 }
