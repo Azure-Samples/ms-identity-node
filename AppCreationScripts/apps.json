@@ -14,6 +14,12 @@
 		}],
 		"oauth2AllowImplicitFlow": false,
 		"oauth2AllowIdTokenImplicitFlow": false,
+		"x-ms-passwordCredentials": "Auto",
+	        "passwordCredentials": [
+		  {
+		    "value": "{auto}"
+		  }
+	        ],
 		"codeConfigurations": [{
 			"settingFile": "/App/.env",
 			"replaceTokens": {
