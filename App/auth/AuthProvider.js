@@ -68,7 +68,7 @@ class AuthProvider {
             const msalInstance = this.getMsalInstance(this.msalConfig);
 
             // trigger the first leg of auth code flow
-            return this.successRedirectAuthCodeUrl(
+            return this.redirectToAuthCodeUrl(
                 authCodeUrlRequestParams,
                 authCodeRequestParams,
                 msalInstance
@@ -192,7 +192,7 @@ class AuthProvider {
      * @param authCodeUrlRequestParams: parameters for requesting an auth code url
      * @param authCodeRequestParams: parameters for requesting tokens using auth code
      */
-    successRedirectAuthCodeUrl(authCodeUrlRequestParams, authCodeRequestParams, msalInstance) {
+    redirectToAuthCodeUrl(authCodeUrlRequestParams, authCodeRequestParams, msalInstance) {
         return async (req, res, next) => {
             // Generate PKCE Codes before starting the authorization flow
             const { verifier, challenge } = await this.cryptoProvider.generatePkceCodes();
