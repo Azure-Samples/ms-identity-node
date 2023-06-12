@@ -218,8 +218,8 @@ Function ConfigureApplications
     Write-Host "Successfully registered and configured that app registration for 'ms-identity-node' at `n $webAppPortalUrl" -ForegroundColor Red 
     
     # Update config file for 'webApp'
-    # $configFile = $pwd.Path + "\..\App\.env"
-    $configFile = $(Resolve-Path ($pwd.Path + "\..\App\.env"))
+    # $configFile = $pwd.Path + "\..\App\.env.dev"
+    $configFile = $(Resolve-Path ($pwd.Path + "\..\App\.env.dev"))
     
     $dictionary = @{ "Enter_the_Application_Id_Here" = $webAppAadApplication.AppId;"Enter_the_Cloud_Instance_Id_Here" = 'https://login.microsoftonline.com/';"Enter_the_Tenant_Info_Here" = $tenantId;"Enter_the_Client_Secret_Here" = $webAppAppKey;"Enter_the_Graph_Endpoint_Here" = 'https://graph.microsoft.com/' };
 

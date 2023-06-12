@@ -21,7 +21,7 @@
     {
       "App": "webApp",
       "SettingKind": "Replace",
-      "SettingFile": "\\..\\App\\.env",
+      "SettingFile": "\\..\\App\\.env.dev",
       "Mappings": [
         {
           "key": "Enter_the_Application_Id_Here",

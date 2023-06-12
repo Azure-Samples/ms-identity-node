@@ -47,13 +47,13 @@ This sample demonstrates the following MSAL Node concepts:
 
 1. Register a new application by following the steps shown [here](https://docs.microsoft.com/azure/active-directory/develop/web-app-quickstart?pivots=devlang-nodejs-msal#step-1-register-your-application)
 1. Clone this repository `git clone https://github.com/Azure-Samples/ms-identity-node.git`
-1. Open the [/App/.env](./App/.env) file and provide the required configuration values
+1. Open the [/App/.env.dev](./App/.env.dev) file and provide the required configuration values
 1. On the command line, navigate to the `App` folder, and run`npm install` to install the project dependencies via npm
 
 ## Running the sample
 
 1. Configure authentication and authorization parameters:
-   1. Open `App/.env`
+   1. Open `App/.env.dev`
    1. Replace the string `"Enter_the_Application_Id_Here"` with your app/client ID on AAD Portal.
    1. Replace the string `"Enter_the_Cloud_Instance_Id_Here"` with `"https://login.microsoftonline.com/"`
    1. Replace the string `"Enter_the_Tenant_Info_Here"` with your tenant ID on AAD Portal.
