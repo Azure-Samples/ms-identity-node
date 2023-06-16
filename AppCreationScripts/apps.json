@@ -21,7 +21,7 @@
 		  }
 	        ],
 		"codeConfigurations": [{
-			"settingFile": "/App/.env",
+			"settingFile": "/App/.env.dev",
 			"replaceTokens": {
 				"appId": "Enter_the_Application_Id_Here",
 				"tenantId": "Enter_the_Tenant_Info_Here",

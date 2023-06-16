@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: '.env.dev' });
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -22,7 +22,7 @@ const msalConfig = {
                 console.log(message);
             },
             piiLoggingEnabled: false,
-            logLevel: "Info",
+            logLevel: 3,
         }
     }
 }
