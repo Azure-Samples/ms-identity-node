@@ -5,7 +5,7 @@ languages:
 - nodejs
 products:
 - msal-node
-- azure-active-directory
+- microsoft-entra-id
 description: "Add authentication to a Node.js web application with the Microsoft Authentication Library for Node.js (MSAL Node)."
 urlFragment: "ms-identity-node"
 ---
@@ -54,10 +54,10 @@ This sample demonstrates the following MSAL Node concepts:
 
 1. Configure authentication and authorization parameters:
    1. Open `App/.env.dev`
-   1. Replace the string `"Enter_the_Application_Id_Here"` with your app/client ID on AAD Portal.
+   1. Replace the string `"Enter_the_Application_Id_Here"` with your app/client ID on Microsoft Entra admin center.
    1. Replace the string `"Enter_the_Cloud_Instance_Id_Here"` with `"https://login.microsoftonline.com/"`
-   1. Replace the string `"Enter_the_Tenant_Info_Here"` with your tenant ID on AAD Portal.
-   1. Replace the string `"Enter_the_Client_Secret_Here"` with your client secret on AAD Portal.
+   1. Replace the string `"Enter_the_Tenant_Info_Here"` with your tenant ID on Microsoft Entra admin center.
+   1. Replace the string `"Enter_the_Client_Secret_Here"` with your client secret on Microsoft Entra admin center.
 1. Configure the parameters for calling MS Graph API:
    1. Replace the string `"Enter_the_Graph_Endpoint_Here"` with `"https://graph.microsoft.com/"`
 1. Configure the Express session secret:
