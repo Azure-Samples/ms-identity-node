@@ -19,6 +19,9 @@ var authRouter = require('./routes/auth');
 // initialize express
 var app = express();
 
+// Use 1 (true) to trust the first proxy (for example, Azure's load balancer and using secure: true)
+app.set('trust proxy', 0);
+
 /**
  * Using express-session middleware for persistent user session. Be sure to
  * familiarize yourself with available options. Visit: https://www.npmjs.com/package/express-session
