@@ -126,6 +126,12 @@ class AuthProvider {
                 return next(new Error('Error: response not found'));
             }
 
+            // Safely handle missing session data and prevent a TypeError by redirecting.
+            if (!req.session || !req.session.pkceCodes) {
+                console.error('Session data is missing. PKCE codes could not be retrieved.');
+                return res.redirect('/');
+            }
+
             const authCodeRequest = {
                 ...req.session.authCodeRequest,
                 code: req.body.code,
